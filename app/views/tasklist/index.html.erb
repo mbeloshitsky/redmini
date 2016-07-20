@@ -1,0 +1,15 @@
+<script>
+	var tasks = {
+		'assigned': <%= @assigned_tasks.to_json.html_safe %>,
+		'managed':  <%= @managed_tasks.to_json.html_safe %>,
+	}
+</script>
+
+<ul>
+	<li v-for="task in tasks.assigned">
+		<input type="checkbox" v-model="task.closed_on">
+		<span class="subject">{{ task.subject}}</span>
+		<br />
+		<span class="description">{{ task.description }}</span>
+	</li>
+</ul>

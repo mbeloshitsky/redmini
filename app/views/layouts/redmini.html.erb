@@ -1,0 +1,17 @@
+<?doctype html>
+<html>
+	<head>
+		<%= stylesheet_link_tag    'redmini', plugin: 'redmini', media: 'all', 'data-turbolinks-track' => true %>
+    	<%= javascript_include_tag 'jquery',  plugin: 'redmini', 'data-turbolinks-track' => true %>
+    	<%= javascript_include_tag 'sugar',   plugin: 'redmini', 'data-turbolinks-track' => true %>
+    	<%= javascript_include_tag 'vue',     plugin: 'redmini', 'data-turbolinks-track' => true %>
+    	<%= javascript_include_tag 'redmini', plugin: 'redmini', 'data-turbolinks-track' => true %>
+    	<%= csrf_meta_tags %>
+	</head>
+	<body>
+		<div  id="redmini">
+			<%= yield %>
+		</div>
+	</body>
+</html>
+
