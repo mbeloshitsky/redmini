@@ -1,15 +1,27 @@
 <script>
-	var tasks = {
-		'assigned': <%= @assigned_tasks.to_json.html_safe %>,
-		'managed':  <%= @managed_tasks.to_json.html_safe %>,
+	var initData = {
+		'taskgroups': <%= @taskgroups.to_json.html_safe %>
 	}
 </script>
 
-<ul>
-	<li v-for="task in tasks.assigned">
-		<input type="checkbox" v-model="task.closed_on">
-		<span class="subject">{{ task.subject}}</span>
-		<br />
-		<span class="description">{{ task.description }}</span>
-	</li>
-</ul>
+<div v-for="tgroup in taskgroups">
+	<h3>{{ tgroup.project.name }}</h3>
+	<ul class="redmini-tasklist">
+		<li v-for="task in tgroup.unclosed">
+			<input type="checkbox" v-model="task.closed_on">
+			<span class="subject">{{ task.subject}}</span>
+			
+			<span class="description" style="display:none;"><br />{{ task.description }}</span>
+		</li>
+	</ul>
+	<hr />
+	<ul class="redmini-tasklist-done">
+		<li v-for="task in tgroup.closed.slice(0,5)">
+			<input type="checkbox" v-model="task.closed_on">
+			<span class="subject">{{ task.subject}}</span>
+			
+			<span class="description" style="display:none;"><br />{{ task.description }}</span>
+		</li>
+		<p v-if="tgroup.closed.length > 5">+ {{ tgroup.closed.length - 5 }} завершенных задач</p>
+	</ul>
+</div>

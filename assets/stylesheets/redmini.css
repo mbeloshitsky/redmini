@@ -2,3 +2,12 @@
 .description {
 	color: #999;
 }
+
+.redmini-tasklist li, .redmini-tasklist-done li {
+	line-height: 1.7em;
+	list-style-type: none;
+}
+
+.redmini-tasklist-done {
+	color: #999;	
+}
