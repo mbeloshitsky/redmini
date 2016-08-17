@@ -4,7 +4,7 @@ class TasklistController < ApplicationController
   layout 'redmini'
 
   def index
-  	user = User.current
+  	user =  User.current
   	@taskgroups = Project
   		.includes(:issues)
   		.where(issues: {assigned_to: user, closed_on: nil})
@@ -24,6 +24,13 @@ class TasklistController < ApplicationController
   		}
   		.sort_by { |p| p[:updated_on] }
   		.reverse
+  end
+
+  def tail
+    @issues = Issue
+      .where(project_id: params[:id])
+      .order('updated_on DESC')
+      .all
   end
 
   private 

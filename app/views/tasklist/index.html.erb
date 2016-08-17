@@ -7,11 +7,22 @@
 <div v-for="tgroup in taskgroups">
 	<h3>{{ tgroup.project.name }}</h3>
 	<ul class="redmini-tasklist">
-		<li v-for="task in tgroup.unclosed">
-			<input type="checkbox" v-model="task.closed_on">
-			<span class="subject">{{ task.subject}}</span>
-			
-			<span class="description" style="display:none;"><br />{{ task.description }}</span>
+		<li v-for="task in tgroup.unclosed" class="{{ isOverdue(task) ? 'overdue' : '' }}">
+			<div v-if="task.editMode" class="task-form">
+				<a v-on:click="toggleEdit(task)"><strong>{{ task.subject }}</strong></a><br />
+				
+				<input v-model="task.status" />
+				<input v-model="task.author" />
+				<input v-model="task.subject" />
+				<textarea v-model="task.description"></textarea>
+			</div>
+			<span v-if="!task.editMode">
+				<input type="checkbox" v-model="task.closed_on" v-on:click="toggleClosed(task)" />
+				<a href="javascript:" v-on:click="toggleEdit(task)" class="subject">{{ task.subject}}</a> <span class="dt">{{ task.due_date || '?'}}</span>
+				
+				<span class="description" style="display:none;"><br />{{ task.description }}</span>
+				<div v-if="task.done_ratio" class="progressbar"><div v-bind:style="{width: task.done_ratio +'%'}" /></div>
+			</span>
 		</li>
 	</ul>
 	<hr />
