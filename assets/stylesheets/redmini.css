@@ -253,6 +253,13 @@ footer, footer a, .footer, .footer a {
 	color: #999;	
 }
 
+.redmini-error {
+	border: solid 1px maroon;
+	color: maroon;
+	padding: 2px;
+	border-radius: 3px;
+}
+
 .progressbar {
   border-radius: 2px; 
   padding: 3px;

@@ -33,6 +33,27 @@ class TasklistController < ApplicationController
       .all
   end
 
+  def invalid_tasks
+    unclosed = Issue
+      .where('closed_on is NULL')
+
+    @badly_planned = unclosed
+      .where('(due_date is NULL OR estimated_hours is NULL) AND created_on < ?', 1.day.ago)
+      .order('updated_on DESC')
+
+    @unassigned = unclosed
+      .where('assigned_to_id is NULL AND created_on < ?', 1.day.ago)
+      .order('updated_on DESC')
+
+    @stalled = unclosed
+      .where('updated_on < ?', 30.day.ago)
+      .order('updated_on DESC')
+  end
+
+  def cmatrix
+
+  end
+
   private 
 
   def group_for_index(issues)

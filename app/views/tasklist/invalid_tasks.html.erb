@@ -1,0 +1,56 @@
+<script>
+	var initData = {
+		'badly_planned': 	  <%= @badly_planned.to_json.html_safe %>
+		, 'unassigned':   <%= @unassigned.to_json.html_safe %>
+		, 'stalled': 	  <%= @stalled.to_json.html_safe %>
+	}
+</script>
+
+<h3>Неполностью спланированные задачи</h3>
+
+<ol class="redmini-tasklist">
+	<li v-for="task in badly_planned.slice(0,20)" class="{{ isOverdue(task) ? 'overdue' : '' }}">
+		<span>
+			<a href="/issues/{{ task.id }}" class="subject">{{ task.subject }}</a> 
+			<span v-if="!task.due_date" class="redmini-error">Отсуствует дата окончания</span>
+			<span v-if="!task.estimated_hours" class="redmini-error">Отсуствует оценка в часах</span>
+			<span class="dt">{{ task.due_date || '?'}}</span>
+			<div v-if="task.done_ratio" class="progressbar"><div v-bind:style="{width: task.done_ratio +'%'}" /></div>
+			
+		</span>
+	</li>
+</ol>
+
+<p v-if="badly_planned.length > 20">+ {{ badly_planned.length - 20 }} задач</p>
+
+<h3>Неназначенные задачи</h3>
+
+<p>Задачи, которые никому не назначены</p>
+
+<ol class="redmini-tasklist">
+	<li v-for="task in unassigned.slice(0,20)" class="{{ isOverdue(task) ? 'overdue' : '' }}">
+		<span>
+			<a href="/issues/{{ task.id }}" class="subject">{{ task.subject}}</a> 
+			<span class="dt">{{ task.due_date || '?'}}</span>
+			<div v-if="task.done_ratio" class="progressbar"><div v-bind:style="{ width: task.done_ratio +'%' }" /></div>
+		</span>
+	</li>
+</ol>
+
+<p v-if="unassigned.length > 20">+ {{ unassigned.length - 20 }} задач</p>
+
+<h3>Зависшие задачи</h3>
+
+<p>Задачи, которые никто не обновлял более 30 дней</p>
+
+<ol class="redmini-tasklist">
+	<li v-for="task in stalled.slice(0,20)" class="{{ isOverdue(task) ? 'overdue' : '' }}">
+		<span>
+			<a href="/issues/{{ task.id }}" class="subject">{{ task.subject}}</a> 
+			<span class="dt">{{ task.due_date || '?'}}</span>
+			<div v-if="task.done_ratio" class="progressbar"><div v-bind:style="{ width: task.done_ratio +'%' }" /></div>
+		</span>
+	</li>
+</ol>
+
+<p v-if="stalled.length > 20">+ {{ stalled.length - 20 }} задач</p>
